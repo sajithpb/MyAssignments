@@ -1,0 +1,339 @@
+{
+  "info": {
+    "_postman_id": "a9b6bd34-5c44-4dba-9db3-70a21265e8ad",
+    "name": "JIRA APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8264592",
+    "_collection_link": "https://go.postman.co/collection/8264592-a9b6bd34-5c44-4dba-9db3-70a21265e8ad?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Creating an Issue",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nlet issue_key = pm.response.json().key\r\npm.collectionVariables.set('issueKey',issue_key)"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"fields\": {\r\n\"project\": {\r\n\"key\": \"PJ2\"\r\n},\r\n\"summary\": \"Task created through Postman\",\r\n\"description\": \"Verify that the page loads successfully.\",\r\n\"issuetype\": {\r\n\"name\": \"Task\"\r\n}\r\n}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieving Issue Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nlet jsonData = pm.response.json();\r\n\r\npm.test(\"Summary Contains\", function () {\r\n\r\n  pm.expect(jsonData.fields.summary).to.include(\"Task created through Postman\");\r\n})\r\n\r\npm.test(\"Project Key Validation\", function () {\r\n\r\n    pm.expect(jsonData.key).to.equal(pm.collectionVariables.get(\"issueKey\"));\r\n})\r\n\r\npm.test(\"Issue type Validation\",function(){\r\n\r\n    pm.expect(jsonData.fields.issuetype.name).to.equal(\"Task\")\r\n})\r\n\r\npm.test(\"Description Validation\",function(){\r\n\r\n    pm.expect(jsonData.fields.description).to.equal(\"Verify that the page loads successfully.\")\r\n})\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue/{{issueKey}}",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue",
+            "{{issueKey}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Modifying Issue Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"fields\": {\r\n\"summary\": \"Task updated through Postman\",\r\n\"description\": \"Updated description: verify page loading and report the result.\"\r\n}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue/{{issueKey}}",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue",
+            "{{issueKey}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieving Updated Issue Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nlet jsonData = pm.response.json();\r\n\r\npm.test(\"Summary Contains\", function () {\r\n\r\n  pm.expect(jsonData.fields.summary).to.include(\"Task updated through Postman\");\r\n})\r\n\r\n\r\npm.test(\"Description Validation\",function(){\r\n\r\n    pm.expect(jsonData.fields.description).to.equal(\"Updated description: verify page loading and report the result.\")\r\n})\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue/{{issueKey}}",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue",
+            "{{issueKey}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deleting the Issue Created",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue/{{issueKey}}",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue",
+            "{{issueKey}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieving Deleted Issue",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});\n\nlet jsonData = pm.response.json();\nlet message = jsonData.errorMessages[0];\n\npm.test(\"Check errorMessage Validation\", function () {\n    pm.expect(message).to.eql(\"Issue does not exist or you do not have permission to see it.\");\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "sajnair06@gmail.com",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://sajnair06.atlassian.net/rest/api/2/issue/{{issueKey}}",
+          "protocol": "https",
+          "host": [
+            "sajnair06",
+            "atlassian",
+            "net"
+          ],
+          "path": [
+            "rest",
+            "api",
+            "2",
+            "issue",
+            "{{issueKey}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "issueKey",
+      "value": ""
+    }
+  ]
+}
