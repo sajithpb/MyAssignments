@@ -21,8 +21,8 @@ const responseBody = await apiContext.post('https://orgfarm-40a42d5208-dev-ed.de
     },
     form: {
         'grant_type': 'client_credentials',
-        'client_id': '3MVG97Tt9.zIfTDutp0JVYGFi1UZTTZhy4EsipIxnWvfQV_mUrQBR_m.xBSTyNCjg.9p.wmXzfUsCeX5XnXeR',
-        'client_secret': '084D9F8B424BC9E9CC8760C6417C3C18D5C9DD1619400E9BF2C720BE63069338'
+        'client_id': '',
+        'client_secret': ''
     }
 })
 
